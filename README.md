@@ -1,6 +1,6 @@
 # Tratordom - E-commerce Agrícola
 
-O **Tratordom** é uma plataforma de e-commerce simplificada, voltada para o setor agrícola. O projeto oferece uma experiência de compra intuitiva para produtores que buscam sementes, fertilizantes e ferramentas de alta qualidade.
+**Nota do Autor:** Todo o código deste projeto (HTML, CSS e JavaScript) foi desenvolvido inteiramente por mim. A inteligência artificial foi utilizada exclusivamente para a criação e organização desta documentação.
 
 ---
 
