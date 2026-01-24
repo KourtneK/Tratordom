@@ -7,34 +7,32 @@
 ## 🚀 Funcionalidades Principais
 
 ### 🛒 Sistema de Vendas
-- **Catálogo Dinâmico:** Visualização de produtos com imagens, descrições e preços.
-- **Carrinho de Compras:**
+- **Catálogo Dinâmico:** Visualização clara de produtos com imagens, descrições e preços.
+- **Carrinho de Compras Inteligente:**
   - Adição de itens em tempo real.
   - Cálculo automático do valor total.
   - Contador de itens integrado ao cabeçalho.
   - Persistência visual dos itens selecionados durante a sessão.
 
 ### 📞 Atendimento e Suporte
-- **Página de Contatos:**
+- **Página de Contatos Completa:**
   - Formulário de envio de mensagens com validação e feedback imediato.
   - Links diretos para WhatsApp e E-mail.
   - Mapa de localização interativo (Google Maps).
-  - Informações de endereço e telefone.
+  - Informações detalhadas de endereço e telefone.
 
 ### 📱 Design e Experiência do Usuário
-- **Interface:** Otimizada para computadores, **NÃO** pensada para tablets e smartphones através de CSS Flexbox e Grid.
-- **Identidade Visual:** Cores e elementos visuais que remetem ao ambiente agrícola (tons de verde e terra).
+- **Interface Responsiva:** Otimizada para computadores, tablets e smartphones através de CSS Flexbox e Grid.
+- **Identidade Visual Temática:** Cores e elementos visuais que remetem ao ambiente agrícola (tons de verde e terra).
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Back-end:**
+- **Front-end:**
   - **HTML5:** Estruturação semântica e acessível.
+  - **CSS3:** Estilização avançada e layouts flexíveis.
   - **JavaScript (ES6+):** Lógica de negócios do carrinho e interações da interface.
- 
-  - **Front-end**
-  - **CSS3:** Estilização simples.
 - **Infraestrutura:**
   - **Replit:** Ambiente de desenvolvimento e hospedagem utilizado para a construção e testes do projeto.
   - **Python (http.server):** Utilizado internamente para servir os arquivos estáticos de forma eficiente.
@@ -68,4 +66,3 @@ Para rodar este projeto localmente ou em outros servidores:
 
 ---
 © 2026 Tratordom - Desenvolvimento de Soluções para o Campo.
-**EMPRESA TOTALMENTE FÍCTICIA**
