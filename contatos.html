@@ -11,10 +11,12 @@
         <h1>Tratordom</h1>
         <nav>
             <a href="index.html">Home</a>
-            <a href="contatos.html">Contatos</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="carrinho.html" id="ver-carrinho">Carrinho (<span id="contador">0</span>)</a>
         </nav>
     </header>
 
+    <!-- Informações de contato -->
     <section id="informacoes">
         <h2>Informações de Contato</h2>
         <p><strong>Email:</strong> <a href="mailto:tratordom@gmail.com">tratordom@gmail.com</a></p>
@@ -23,45 +25,32 @@
         <p><strong>Endereço:</strong> Rua da Agricultura, 123, Cidade, Estado</p>
     </section>
 
+    <!-- Formulário de contato -->
     <section id="formulario">
         <h2>Envie sua mensagem</h2>
         <form id="form-contato">
-            <label for="nome">Nome:</label><br>
-            <input type="text" id="nome" name="nome" required><br><br>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
 
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-            <label for="mensagem">Mensagem:</label><br>
-            <textarea id="mensagem" name="mensagem" rows="5" required></textarea><br><br>
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
 
             <button type="submit">Enviar</button>
         </form>
     </section>
 
-    <section id="mapa">
-        <h2>Localização</h2>
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.123456!2d-46.633308!3d-23.550520!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59b0f6b1c69f%3A0x8e3f6b3e12345678!2sSão%20Paulo%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1234567890" 
-            width="100%" 
-            height="300" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
-    </footer>
-
-    <script>
-        const form = document.getElementById('form-contato');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Mensagem enviada com sucesso!');
-            form.reset();
-        });
-    </script>
-</body>
-</html>
+    <!-- Mapa de localização -->
+<section id="mapa">
+    <h2>Localização</h2>
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.123456!2d-46.633308!3d-23.550520!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59b0f6b1c69f%3A0x8e3f6b3e12345678!2sSão%20Paulo%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr"
+        width="100%"
+        height="300"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
+</section>

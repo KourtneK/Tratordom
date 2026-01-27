@@ -7,45 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
         <h1>Tratordom</h1>
         <nav>
-            <a href="index.html">Home</a>
+            <a href="produtos.html">Produtos</a>
             <a href="contatos.html">Contatos</a>
-            <a href="#carrinho" id="ver-carrinho">Carrinho (<span id="contador">0</span>)</a>
+            <a href="carrinho.html" id="ver-carrinho">Carrinho (<span id="contador">0</span>)</a>
         </nav>
     </header>
 
-    <section id="produtos">
-        <h2>Produtos em Destaque</h2>
-        <div class="grid-produtos">
-            <div class="produto">
-                <img src="milho.webp" alt="Sementes de milho">
-                <h3>Sementes de Milho</h3>
-                <p>R$ 20,00</p>
-                <button class="adicionar" data-produto="Sementes de Milho" data-preco="20">Adicionar ao carrinho</button>
-            </div>
-            <div class="produto">
-                <img src="feartilizante.webp" alt="Fertilizante">
-                <h3>Fertilizante Orgânico</h3>
-                <p>R$ 35,00</p>
-                <button class="adicionar" data-produto="Fertilizante Orgânico" data-preco="35">Adicionar ao carrinho</button>
-            </div>
-            <div class="produto">
-                <img src="enxada.png" alt="Ferramenta agrícola">
-                <h3>Enxada Profissional</h3>
-                <p>R$ 50,00</p>
-                <button class="adicionar" data-produto="Enxada Profissional" data-preco="50">Adicionar ao carrinho</button>
-            </div>
+    <!-- Seção de boas-vindas -->
+    <section id="boas-vindas">
+        <h2>Bem-vindo á Tratordom</h2>
+        <p>
+            Sua parceira de confiança para sementes, ferramentas e fertilizantes de alta qualidade.
+            Explore nosso catálogo completo e equipe sua fazenda com o que há de melhor.
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="produtos.html" class="btn-principal">Ver Catálogo de Produtos</a>
         </div>
-    </section>
-
-    <section id="carrinho">
-        <h2>Seu Carrinho</h2>
-        <ul id="lista-carrinho">
-            <li>O carrinho está vazio</li>
-        </ul>
-        <p id="total">Total: R$ 0,00</p>
     </section>
 
     <footer>

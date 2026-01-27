@@ -19,6 +19,7 @@ body {
     line-height: 1.6;
 }
 
+/* Header */
 header {
     background-color: var(--header-bg);
     padding: 1rem 5%;
@@ -71,6 +72,7 @@ header nav a:hover {
     transform: translateY(-2px);
 }
 
+/* Títulos */
 h2 {
     color: var(--text-white);
     text-align: center;
@@ -91,6 +93,7 @@ h2::after {
     background: var(--accent-pink);
 }
 
+/* Grid produtos */
 .grid-produtos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -151,15 +154,22 @@ h2::after {
     background-color: #ad1457;
 }
 
-#carrinho, #informacoes, #formulario, #mapa {
+/* Seções */
+#carrinho, #informacoes, #formulario, #mapa, #lista-produtos {
     background-color: var(--card-bg);
     padding: 30px;
     margin: 40px auto;
     border-radius: 12px;
-    max-width: 800px;
+    max-width: 1000px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+#lista-produtos .grid-produtos {
+    padding: 0;
+    width: 100%;
+}
+
+/* Carrinho */
 #carrinho ul {
     list-style: none;
     padding: 0;
@@ -170,6 +180,7 @@ h2::after {
     border-bottom: 1px solid rgba(255,255,255,0.1);
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #total {
@@ -180,7 +191,41 @@ h2::after {
     font-weight: bold;
 }
 
-/* Formulário de Contato */
+.carrinho-botoes {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-carrinho {
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.btn-limpar {
+    background-color: var(--dark-green);
+}
+
+.btn-limpar:hover {
+    background-color: #1f441f;
+}
+
+.btn-finalizar {
+    background-color: var(--accent-blue);
+}
+
+.btn-finalizar:hover {
+    background-color: #1976d2;
+}
+
+/* Formulário */
 #form-contato label {
     display: block;
     margin-bottom: 8px;
@@ -220,12 +265,13 @@ button[type="submit"]:hover {
     background-color: #1976d2;
 }
 
-/* Informações de Contato */
+/* Contato */
 #informacoes p {
     margin: 15px 0;
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 #informacoes a {
@@ -237,6 +283,7 @@ button[type="submit"]:hover {
     text-decoration: underline;
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 40px 20px;
@@ -248,9 +295,10 @@ footer p {
     margin: 0;
     opacity: 0.7;
     font-size: 0.9rem;
+    word-wrap: break-word;
 }
 
-/* Scrollbar Personalizada */
+/* Scroll personalizado */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -268,6 +316,7 @@ footer p {
     background: #ad1457;
 }
 
+/* Responsivo */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -279,4 +328,25 @@ footer p {
         flex-wrap: wrap;
         justify-content: center;
     }
+}
+
+/* Boas-vindas e botões */
+#boas-vindas {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.btn-principal {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.btn-principal:hover {
+    background-color: #ad1457;
 }
