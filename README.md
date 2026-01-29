@@ -42,13 +42,24 @@
 ## 📁 Estrutura de Arquivos
 
 ```text
-├── index.html          # Página inicial (Produtos e Carrinho)
-├── contatos.html       # Página de suporte e localização
-├── style.css           # Folha de estilos unificada
-├── script.js           # Lógica do carrinho de compras
-├── replit.md           # Notas técnicas específicas do ambiente
-├── README.md           # Documentação geral do projeto
-└── [imagens]           # Ativos visuais (milho.webp, enxada.png, etc.)
+Tratordom/                 # Pasta raiz do projeto
+├── index.html             # Página inicial (Produtos e Carrinho)
+├── contatos.html          # Página de suporte e localização
+├── script.js              # Lógica do carrinho de compras
+├── README.md              # Documentação geral do projeto
+├── replit.md              # Notas técnicas específicas do ambiente
+├── stylecss/              # Pasta com todos os arquivos CSS
+│     ├── style.css          # CSS base (fundo, cores, body)
+│     ├── header.css         # Estilos do cabeçalho
+│     ├── produtos.css       # Estilos dos produtos
+│     └── contatos.css       # Estilos do formulário/contato
+└── imagens/               # Ativos visuais
+      ├── milho.webp
+      ├── enxada.png
+      ├── trato.png
+      ├── estufa.webp
+      ├── peca_trator.png
+      └── fundo.png
 ```
 
 ---
