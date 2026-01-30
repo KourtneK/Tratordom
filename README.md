@@ -13,9 +13,9 @@
   - Cálculo automático do valor total.
   - Contador de itens integrado ao cabeçalho.
   - Persistência visual dos itens selecionados durante a sessão.
-
+    
 ### 📞 Atendimento e Suporte
-- **Página de Contatos Completa:**
+- **Página de Contatos Completa e funcional:**
   - Formulário de envio de mensagens com validação e feedback imediato.
   - Links diretos para WhatsApp e E-mail.
   - Mapa de localização interativo (Google Maps).
