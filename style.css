@@ -45,7 +45,7 @@ h2::after {
 }
 
 /* Seções */
-#carrinho, #informacoes, #formulario, #mapa, #lista-produtos {
+#carrinho, #informacoes, #formulario, #mapa, #lista-produtos, #login {
     background-color: var(--card-bg);
     padding: 30px;
     margin: 40px auto;
@@ -54,9 +54,25 @@ h2::after {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-#lista-produtos .grid-produtos {
-    padding: 0;
-    width: 100%;
+/* Boas-vindas e botões */
+#boas-vindas {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.btn-principal {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.btn-principal:hover {
+    background-color: #ad1457;
 }
 
 /* Formulário */
@@ -96,6 +112,54 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
+    background-color: #1976d2;
+}
+
+/* Login com Google */
+#google-btn {
+    background-color: var(--accent-pink);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin: 20px auto 0 auto;
+}
+
+#google-btn:hover {
+    background-color: #ad1457;
+    transform: translateY(-2px);
+}
+
+#google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+#user-info {
+    text-align: center;
+}
+
+#user-info button {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+#user-info button:hover {
     background-color: #1976d2;
 }
 
@@ -144,25 +208,4 @@ footer p {
         flex-wrap: wrap;
         justify-content: center;
     }
-}
-
-/* Boas-vindas e botões */
-#boas-vindas {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.btn-principal {
-    background-color: var(--accent-pink);
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background 0.3s ease;
-}
-
-.btn-principal:hover {
-    background-color: #ad1457;
 }

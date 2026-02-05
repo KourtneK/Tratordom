@@ -32,13 +32,13 @@
         <h2>Envie sua mensagem</h2>
         <form action="https://formspree.io/f/xvzrqqpr" method="post">
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+            <input type="text" id="nome" name="nome" autocomplete="off" value="" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" autocomplete="off" value="" required>
 
             <label for="mensagem">Mensagem:</label>
-            <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+            <textarea id="mensagem" name="mensagem" rows="5" autocomplete="off" value="" required></textarea>
 
             <button type="submit">Enviar</button>
         </form>

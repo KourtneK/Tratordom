@@ -18,30 +18,31 @@ let total = carrinho.reduce((soma, item) => soma + item.preco, 0);
 // FUNÇÃO PARA ATUALIZAR O CARRINHO NA PÁGINA
 // =======================
 function atualizarCarrinho() {
-    // Atualiza lista do carrinho apenas se existir
     if (listaCarrinho) {
         listaCarrinho.innerHTML = "";
 
         if (carrinho.length === 0) {
             listaCarrinho.innerHTML = "<li>O carrinho está vazio</li>";
         } else {
-            carrinho.forEach((item) => {
-                listaCarrinho.innerHTML += `<li>${item.nome} - R$ ${item.preco.toFixed(2)}</li>`;
+            carrinho.forEach((item, index) => {
+                listaCarrinho.innerHTML += `
+                    <li>
+                        <span>${item.nome} - R$ ${item.preco.toFixed(2)}</span>
+                        <span class="remover-produto" onclick="RemoverProduto(${index})">✖</span>
+                    </li>
+                `;
             });
         }
     }
 
-    // Atualiza total
     if (totalElem) {
         totalElem.textContent = `Total: R$ ${total.toFixed(2)}`;
     }
 
-    // Atualiza contador global
     if (contador) {
         contador.textContent = carrinho.length;
     }
 
-    // Salva no localStorage
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
 }
 
@@ -83,6 +84,15 @@ function finalizarCompra() {
 
     alert("Compra finalizada com sucesso! A Tratordom agradece a preferência.");
     limparCarrinho();
+}
+
+// =======================
+// FUNÇÃO PARA REMOVER PRODUTO DO CARRINHO
+// =======================
+function RemoverProduto(index) {
+    const produtoRemovido = carrinho.splice(index, 1)[0];
+    total -= produtoRemovido.preco;
+    atualizarCarrinho();
 }
 
 // =======================

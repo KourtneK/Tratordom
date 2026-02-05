@@ -53,3 +53,17 @@
 .btn-finalizar:hover {
     background-color: #1976d2;
 }
+
+.remover-produto {
+    color: #ff5252;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding-left: 0px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.remover-produto:hover {
+    color: #ff1744;
+    transform: scale(1.3);
+}

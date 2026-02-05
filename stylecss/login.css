@@ -1,0 +1,119 @@
+/* Login Container - Estilo do site */
+#login-container {
+    background-color: var(--card-bg);
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 12px;
+    max-width: 1000px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+#login-container h2 {
+    color: var(--text-white);
+    text-align: center;
+    margin: 0 0 30px 0;
+    font-size: 2rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#login-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--accent-pink);
+}
+
+#login-container p {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Google Button */
+.g_id_signin {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.g_id_signin > div {
+    width: 100% !important;
+    height: 50px !important;
+    border-radius: 6px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.g_id_signin > div:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important;
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 20px 0;
+    padding: 02px;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-info img.user-foto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-pink);
+    object-fit: cover;
+}
+
+.user-info .user-nome {
+    color: var(--text-white);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Logout Button - mesmo estilo dos botões de produtos e contatos */
+.btn-logout {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 15px 50px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.1s ease;
+    margin-top: 0.1px;
+}
+
+.btn-logout:hover {
+    background-color: #ad1457;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #login-container {
+        padding: 20px;
+        margin: 30px auto;
+    }
+
+    #login-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .user-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
