@@ -1,101 +1,79 @@
 # Tratordom - E-commerce Agrícola
 
-**Nota do Autor:** Todo o código deste projeto (HTML, CSS e JavaScript) foi desenvolvido inteiramente por mim. A inteligência artificial foi utilizada exclusivamente para a criação e organização desta documentação.
+**Nota do Autor:** Todo o código deste projeto (HTML, CSS e JavaScript) foi desenvolvido inteiramente por mim. A inteligência artificial replit foi utilizada exclusivamente para a criação e organização desta documentação.
 
 ---
 
 ## 🚀 Funcionalidades Principais
 
 ### 🛒 Sistema de Vendas
-- **Catálogo Dinâmico:** Visualização clara de produtos com imagens, descrições e preços.
+- **Catálogo Dinâmico:** Visualização clara de produtos com imagens, descrições e preços na página `produtos.html`.
 - **Carrinho de Compras Inteligente:**
   - Adição de itens em tempo real.
   - Cálculo automático do valor total.
   - Contador de itens integrado ao cabeçalho.
-  - Persistência visual dos itens selecionados durante a sessão (localStorage).
-  - Página dedicada ao carrinho para visualização completa.
-  - Funções de remover produtos individuais e limpar carrinho.
-  - Finalização de compra com confirmação.
+  - Página dedicada para gerenciamento (`carrinho.html`).
 
-### 🔐 Autenticação e Conta
-- **Página de Login:** Integração com Google Login para autenticação segura.
-- **Gerenciamento de Usuário:** Exibição do nome e avatar do usuário autenticado na navegação.
+### 🔐 Autenticação
+- **Login com Google:** Integração com Google Identity Services para autenticação de usuários (`google-login.js`).
 
 ### 📞 Atendimento e Suporte
 - **Página de Contatos Completa:**
-  - Formulário de envio de mensagens com validação e feedback imediato.
+  - Formulário de envio de mensagens com validação (via Formspree).
   - Links diretos para WhatsApp e E-mail.
   - Mapa de localização interativo (Google Maps).
   - Informações detalhadas de endereço e telefone.
 
 ### 📱 Design e Experiência do Usuário
 - **Interface Responsiva:** Otimizada para computadores, tablets e smartphones através de CSS Flexbox e Grid.
-- **Identidade Visual Temática:** Cores e elementos visuais que remetem ao ambiente agrícola (tons de verde e terra).
-- **Estilos Modularizados:** CSS organizado em arquivos separados por funcionalidade (header, login).
+- **Identidade Visual Modular:** Estilos organizados por componentes na pasta `stylecss/` (header, login, carrinho, etc.).
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
 - **Front-end:**
-  - **HTML5:** Estruturação semântica e acessível.
-  - **CSS3:** Estilização avançada, layouts flexíveis e arquivos CSS modularizados.
-  - **JavaScript (ES6+):** Lógica de negócios do carrinho, interações da interface e autenticação.
+  - **HTML5:** Estruturação semântica.
+  - **CSS3:** Estilização modular e responsiva.
+  - **JavaScript (ES6+):** Lógica do carrinho e integração com Google Login.
+- **Integrações:**
+  - **Google Identity Services:** Autenticação.
+  - **Formspree:** Backend para o formulário de contato.
 - **Infraestrutura:**
-  - **Replit:** Ambiente de desenvolvimento e hospedagem utilizado para a construção e testes do projeto.
-  - **Python (http.server):** Utilizado internamente para servir os arquivos estáticos de forma eficiente.
-- **Serviços Externos:**
-  - **Google Login:** Autenticação segura com Google.
-  - **Google Maps API:** Mapa interativo na página de contatos.
+  - **Replit:** Ambiente de desenvolvimento e hospedagem.
+  - **Python (http.server):** Servidor de arquivos estáticos.
 
 ---
 
 ## 📁 Estrutura de Arquivos
 
-```text
-├── index.html          # Página inicial (Boas-vindas)
+```
+├── Tratordom           # Pasta raiz
+├── index.html          # Página inicial
 ├── produtos.html       # Catálogo de produtos
-├── carrinho.html       # Visualização e gerenciamento do carrinho
-├── contatos.html       # Página de suporte e localização
-├── login.html          # Página de autenticação com Google
-├── style.css           # Folha de estilos principal
-├── script.js           # Lógica do carrinho de compras (localStorage)
-├── google-login.js     # Integração com Google Login
-├── stylecss/           # Diretório com CSS modularizado
-│   ├── header.css      # Estilos do cabeçalho
-│   └── login.css       # Estilos da página de login
-├── imagens/            # Ativos visuais (fundo.png, produtos, etc.)
-├── replit.md           # Notas técnicas específicas do ambiente
-└── README.md           # Documentação geral do projeto
+├── carrinho.html       # Visualização do carrinho
+├── contatos.html       # Página de contato e mapa
+├── login.html          # Interface de login
+├── style.css           # Estilos globais
+├── stylecss/           # Estilos modulares (carrinho.css, header.css, etc.)
+├── script.js           # Lógica do carrinho de compras
+├── google-login.js     # Integração com login do Google
+├── replit.md           # Notas técnicas do ambiente
+├── README.md           # Documentação geral
+└── imagens/            # Ativos visuais (produtos e interface)
 ```
 
 ---
 
 ## 💻 Como Executar
 
-Para rodar este projeto localmente ou em outros servidores:
+Para rodar este projeto:
 
-1. Certifique-se de ter o **Python** instalado em sua máquina.
-2. No diretório raiz do projeto, execute o comando:
+1. No diretório raiz, execute:
    ```bash
    python3 -m http.server 5000
    ```
-3. Acesse `http://localhost:5000` em qualquer navegador moderno.
-
-### Requisitos Adicionais:
-- Conexão com a internet para usar o Google Login.
-- Chave de API do Google Maps configurada para exibir o mapa de forma completa.
+2. Acesse `http://localhost:5000` no navegador.
 
 ---
-
-## 🎯 Fluxo do Usuário
-
-1. **Home (index.html):** Bem-vindo com link para o catálogo.
-2. **Produtos (produtos.html):** Visualizar e adicionar itens ao carrinho.
-3. **Carrinho (carrinho.html):** Revisar itens, remover produtos ou finalizar compra.
-4. **Login (login.html):** Autenticar com Google para acessar funcionalidades de conta.
-5. **Contatos (contatos.html):** Enviar mensagens, encontrar localização ou contatar via WhatsApp.
-
----
-
-© 2026 Tratordom - Desenvolvimento de Soluções para o Campo.
+© 2026 Tratordom - Soluções para o Campo.
