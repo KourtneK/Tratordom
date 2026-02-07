@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Tratordom</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="stylecss/login.css">
+    <link rel="stylesheet" href="style.css"> <!-- CSS global -->
+    <link rel="stylesheet" href="stylecss/login.css"> <!-- CSS do login -->
+    <link rel="stylesheet" href="stylecss/header.css"> <!-- CSS do header -->
 </head>
 <body>
     <header>
@@ -14,14 +15,19 @@
 
     <section id="login-container">
         <h2>Login com Google</h2>
-        <p>Faça login para acessar sua conta e seu carrinho.</p>
+        <p>
+            Faça login para acessar sua conta e seu carrinho.</p>
 
-        <!-- Botão do Google -->
-        <div id="g_id_onload"
-             data-client_id="907559378583-r4t9lu93404k7eb1jnm7tisr59u7bs0q.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse">
+        <div class="google-wrapper">
+            <div class="g_id_signin" data-type="standard" data-size="large"></div>
         </div>
-        <div class="g_id_signin" data-type="standard"></div>
+
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <div id="g_id_onload"
+            data-client_id="907559378583-r4t9lu93404k7eb1jnm7tisr59u7bs0q.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+
     </section>
 
     <footer>
@@ -31,6 +37,5 @@
     <script src="script.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="google-login.js"></script>
-    <script src="logout.js"></script>
 </body>
 </html>

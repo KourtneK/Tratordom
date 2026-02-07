@@ -68,11 +68,12 @@ h2::after {
     border-radius: 6px;
     font-weight: bold;
     display: inline-block;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;;
 }
 
 .btn-principal:hover {
-    background-color: #ad1457;
+    background-color: var(--accent-pink);
+    transform: scale(1.05);
 }
 
 /* Formulário */
