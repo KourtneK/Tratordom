@@ -6,7 +6,7 @@
     --text-white: #ffffff;
     --text-gray: #e0e0e0;
     --card-bg: #2a3d2a;
-    --header-bg: #1e2b1e;
+    --header-bg: #4b614b;
 }
 
 body {
@@ -25,7 +25,7 @@ body {
 
 /* Títulos */
 h2 {
-    color: var(--text-white);
+    color: var(--text-gray);
     text-align: center;
     margin: 40px 0 30px;
     font-size: 2rem;
@@ -39,7 +39,7 @@ h2::after {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 200px;
     height: 3px;
     background: var(--accent-pink);
 }
@@ -52,6 +52,16 @@ h2::after {
     border-radius: 12px;
     max-width: 1000px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Logo */
+.logo {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    object-fit: contain;
 }
 
 /* Boas-vindas e botões */
