@@ -32,7 +32,6 @@ function logoutGoogleUser() {
 function atualizarUsuarioHeader() {
     const usuarioContainer = document.getElementById('usuario-container');
     const usuario = JSON.parse(localStorage.getItem('usuarioGoogle'));
-    const isVIP = localStorage.getItem('assinanteVIP') === 'true';
 
     if (!usuarioContainer) return;
 
