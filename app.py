@@ -120,11 +120,11 @@ def ativar_vip_banco():
     
     return jsonify({"status": "sucesso", "mensagem": "Usuário já era VIP"})
 
-@app.route('/remover-carrinho', methods=['POST'])
-def remover_carrinho():
-    dados = request.json
-    usuario_id = dados.get('usuario_id')
-    produto_nome = dados.get('produto_nome')
+# @app.route('/remover-carrinho', methods=['POST'])
+# def remover_carrinho():
+#     dados = request.json
+#     usuario_id = dados.get('usuario_id')
+#     produto_nome = dados.get('produto_nome')
 
 @app.route('/verificar-vip/<int:usuario_id>')
 def verificar_vip(usuario_id):
@@ -171,7 +171,15 @@ def sincronizar_vip_email():
         return jsonify({"encontrado": True, "is_vip": is_vip, "usuario_id": usuario.id})
     return jsonify({"encontrado": False}), 404
 
-    # Busca o item no banco
+# ... (mantenha as suas importações e inicialização do db)
+
+@app.route('/remover-item-carrinho', methods=['POST'])
+def remover_item_carrinho():
+    dados = request.json
+    usuario_id = dados.get('usuario_id')
+    produto_nome = dados.get('produto_nome')
+
+    # Busca o item exato no banco de dados
     item = Carrinho.query.filter_by(usuario_id=usuario_id, produto_nome=produto_nome).first()
 
     if item:
@@ -180,6 +188,9 @@ def sincronizar_vip_email():
         return jsonify({"status": "sucesso", "mensagem": "Item removido do banco"})
     
     return jsonify({"status": "erro", "mensagem": "Item não encontrado"}), 404
+
+# ... (mantenha todas as outras rotas: login_google, add_carrinho, puxar_dados, etc.)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
