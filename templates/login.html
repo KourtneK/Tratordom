@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tratordom</title>
+    <link rel="stylesheet" href="static/style.css"> <!-- CSS global -->
+    <link rel="stylesheet" href="static/stylecss/login.css"> <!-- CSS do login -->
+    <link rel="stylesheet" href="static/stylecss/header.css"> <!-- CSS do header -->
+    <link rel="stylesheet" href="static/stylecss/logo.css"> <!-- CSS do logo -->
+</head>
+<body>
+    <header>
+        <img src="static/imagens/Touro.png" alt=" Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/index">Home</a>
+            <a href="/assinatura" style="color: #ffd54f;">Assinatura VIP</a>
+            <a href="/contatos">Contatos</a>
+            <a href="/produtos">Produtos</a>
+        </nav>
+    </header>
+
+    <section id="login-container">
+        <h2>Login com Google</h2>
+        <p>Faça login para acessar sua conta e seu carrinho.</p>
+
+        <div class="google-wrapper">
+            <div class="g_id_signin" data-type="standard" data-size="large"></div>
+        </div>
+
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <div id="g_id_onload"
+            data-client_id="907559378583-r4t9lu93404k7eb1jnm7tisr59u7bs0q.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/static/google-login.js"></script>
+</body>
+</html>

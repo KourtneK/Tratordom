@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossos Produtos - Tratordom</title>
+    <link rel="stylesheet" href="/static/style.css">    <!-- CSS global -->
+    <link rel="stylesheet" href="/static/stylecss/produtos.css">    <!-- CSS da página de produtos -->
+    <link rel="stylesheet" href="/static/stylecss/header.css">  <!-- CSS do header -->
+</head>
+<body>
+    <header>
+        <img src="static/imagens/Touro.png" alt=" Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/index">Home</a>
+            <a href="/contatos">Contatos</a>
+            <a href="/assinatura" style="color: #ffd54f;">Assinatura VIP</a>
+            <a href="/carrinho" id="ver-carrinho">Carrinho (<span id="contador">0</span>)</a>
+        </nav>
+    </header>
+
+    <section id="lista-produtos">
+        <h2>Produtos em Destaque</h2>
+        <div class="grid-produtos">
+            <div class="produto">
+                <img src="static/imagens/milho.webp" alt="Sementes de milho">
+                <h3>Sementes de Milho</h3>
+                <p>R$ 20,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Sementes de Milho', 20)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <img src="static/imagens/fertilizante.webp" alt="Fertilizante">
+                <h3>Fertilizante Orgânico</h3>
+                <p>R$ 35,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Fertilizante Orgânico', 35)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <img src="static/imagens/enxada.png" alt="Ferramenta agrícola">
+                <h3>Enxada Profissional</h3>
+                <p>R$ 50,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Enxada Profissional', 50)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <img src="static/imagens/trator.png" alt="Trator">
+                <h3>Trator</h3>
+                <p>R$ 115.500,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Trator', 115500)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <img src="static/imagens/estufa.webp" alt="Estufa">
+                <h3>Estufa</h3>
+                <p>R$ 4.000,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Estufa', 4000)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <img src="static/imagens/peca_trator.png" alt="Peça de Trator">
+                <h3>Peça de Trator</h3>
+                <p>R$ 2.500,00</p>
+                <button class="adicionar" onclick="adicionarAoCarrinho('Peça de Trator', 2500)">Adicionar ao carrinho</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

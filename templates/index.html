@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratordom - E-commerce Agrícola</title>
+    <link rel="stylesheet" href="/static/style.css">    <!-- CSS global -->
+    <link rel="stylesheet" href="/static/stylecss/header.css">  <!-- CSS do header -->
+    <link rel="stylesheet" href="/static/stylecss/login.css">   <!-- CSS do login -->
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <img src="static/imagens/Touro.png" alt=" Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/produtos">Produtos</a>
+            <a href="/contatos">Contatos</a>
+            <a href="/assinatura" style="color: #ffd54f;">Assinatura VIP</a>
+            <a href="/carrinho" id="ver-carrinho">Carrinho (<span id="contador">0</span>)</a>
+            <span id="usuario-container"></span>
+        </nav>
+    </header>
+
+    <!-- Seção de boas-vindas -->
+    <section id="boas-vindas">
+        <h2>Bem-vindo á Tratordom</h2>
+        <p>
+            Sua parceira de confiança para sementes, ferramentas e fertilizantes de alta qualidade.
+            Explore nosso catálogo completo e equipe sua fazenda com o que há de melhor.
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="/produtos" class="btn-principal">Ver Catálogo de Produtos</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/static/google-login.js"></script>
+
+    <script>
+            // Tenta falar com o Python assim que a página abre
+        fetch('http://127.0.0.1:5000')
+            .then(response => response.json())
+            .then(data => console.log("Resposta do Python:", data.status))
+            .catch(error => console.error("O servidor Python está desligado!"));
+    </script>
+</body>
+</html>

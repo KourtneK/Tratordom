@@ -1,0 +1,68 @@
+/* css/cancelar.css */
+
+/* Animação de entrada do card */
+#area-ativacao {
+    animation: fadeIn 0s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#status-atual {
+    font-weight: bold;
+    color: var(--text-white);
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* O BOTÃO DE CANCELAR (Com animação) */
+#btn-confirmar-cancelar {
+    width: 100%;
+    max-width: 300px;
+    padding: 14px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    background-color: var(--accent-pink);
+    transition: all 0.3s ease;
+    /* box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); */
+}
+
+#btn-confirmar-cancelar:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+    transition: all 0.1s ease;
+    /* box-shadow: 0 6px 20px rgba(216, 27, 96, 0.4); */
+}
+
+/* Efeito de clique */
+#btn-confirmar-cancelar:active {
+    transform: scale(0.96);
+}
+
+/* BOTÃO DE VOLTAR (Mais bonito) */
+.link-home {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 20px;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid var(--accent-blue);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.link-home:hover {
+    background-color: var(--accent-blue);
+    color: white;
+    transition: all 0.3s ease;
+}

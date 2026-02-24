@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar VIP - Tratordom</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/stylecss/header.css">
+    <link rel="stylesheet" href="static/stylecss/assinatura.css">
+    <link rel="stylesheet" href="static/stylecss/cancelar.css">
+</head>
+<body>
+    <header>
+        <img src="static/imagens/Touro.png" alt="Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/index">Home</a>
+            <a href="/assinatura">Planos</a>
+            <a href="/carrinho">Carrinho</a>
+        </nav>
+    </header>
+
+    <main style="display: flex; align-items: center; justify-content: center; min-height: 70vh;">
+        <section id="area-ativacao">
+            <h2>Gerenciar Assinatura</h2>
+            <p id="status-atual">Verificando status da sua assinatura...</p>
+            
+            <p style="margin-bottom: 20px;">Deseja realmente cancelar sua assinatura VIP?</p>
+            
+            <button id="btn-confirmar-cancelar" onclick="cancelarAssinatura()" style="display: none; background-color: var(--accent-pink);">
+                Confirmar Cancelamento
+            </button>
+            
+            <p style="margin-top: 20px; font-size: 0.85rem;">
+                <a href="/index" class="link-home">Voltar para a Home</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

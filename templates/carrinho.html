@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho - Tratordom</title>
+    <link rel="stylesheet" href="static/style.css">    <!-- CSS global -->
+    <link rel="stylesheet" href="static/stylecss/carrinho.css">    <!-- CSS da página de carrinho -->
+    <link rel="stylesheet" href="static/stylecss/header.css">  <!-- CSS do header -->
+</head>
+<body>
+    <header>
+        <img src="static/imagens/Touro.png" alt=" Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/index">Home</a>
+            <a href="/produtos">Produtos</a>
+            <a href="/contatos">Contatos</a>
+            <a href="/assinatura" style="color: #ffd54f;">Assinatura VIP</a>
+        </nav>
+    </header>
+
+    <section id="carrinho">
+        <h2>Seu Carrinho</h2>
+        <ul id="lista-carrinho">
+            <li>O carrinho está vazio</li>
+        </ul>
+        <p id="total">Total: R$ 0,00</p>
+
+        <div class="carrinho-botoes">
+            <button onclick="limparCarrinho()" class="btn-carrinho btn-limpar">Limpar Carrinho</button>
+            <button onclick="finalizarCompra()" class="btn-carrinho btn-finalizar">Finalizar Compra</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

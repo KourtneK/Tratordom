@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assinatura VIP - Tratordom</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/stylecss/header.css">
+    <link rel="stylesheet" href="static/stylecss/assinatura.css">
+</head>
+<body>
+    <header>
+        <img src="static/imagens/Touro.png" alt="Logo da Tratordom" class="logo">
+        <h1>Tratordom</h1>
+        <nav>
+            <a href="/index">Home</a>
+            <a href="/cancelar">Cancelar assinatura</a>
+            <a href="/produtos">Produtos</a>
+            <a href="/carrinho">Carrinho</a>
+            <a href="/ativar" style="color: var(--accent-blue);">Ativar Código</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="plano-vip">
+            <div class="card-assinatura">
+                <div class="badge-vip">Plano Logística Premium</div>
+                <h2>Entrega Prioritária</h2>
+                <p class="descricao">Garanta que suas sementes e implementos cheguem antes de todos. Prioridade máxima no despacho e suporte exclusivo.</p>
+                
+                <div class="valor-mensal">
+                    <span class="moeda">R$</span>
+                    <span class="preco">12,00</span>
+                    <span class="periodo">/mês</span>
+                </div>
+
+                <ul class="beneficios">
+                    <li>✓ Despacho imediato em até 2h</li>
+                    <li>✓ Rastreamento em tempo real</li>
+                    <li>✓ Suporte VIP via WhatsApp</li>
+                    <li>✓ Selo de Assinante no Perfil</li>
+                </ul>
+
+                <button onclick="assinarPlano()" class="btn-assinar">Assinar via PIX</button>
+                
+                <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-gray);">
+                    Já realizou o pagamento? <br>
+                    <a href="/ativar" style="color: var(--accent-blue); text-decoration: underline;">Clique aqui para ativar seu código</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Tratordom - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="static/script.js"></script>
+    <script src="static/google-login.js"></script>
+</body>
+</html>
