@@ -83,6 +83,33 @@ function removerDoCarrinho(index) {
     }
 }
 
+// FUNÇÃO DE LIMPAR CARRINHO
+function limparCarrinho() {
+    if (carrinho.length === 0) return; // Se já está vazio, não faz nada
+
+    if (confirm("Deseja realmente esvaziar todo o seu carrinho?")) {
+        const usuario = JSON.parse(localStorage.getItem('usuarioGoogle'));
+
+        // 1. Limpa localmente (Visual)
+        carrinho = [];
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        renderizarCarrinho();
+        atualizarContador();
+
+        // 2. Limpa no Banco de Dados
+        if (usuario && usuario.id) {
+            fetch('http://localhost:5000/limpar-carrinho-banco', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario_id: usuario.id })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Servidor:", data.mensagem))
+            .catch(err => console.error("Erro ao limpar banco:", err));
+        }
+    }
+}
+
 // --- 2. FUNÇÕES DE ASSINATURA ---
 
 function assinarPlano() {
@@ -150,7 +177,7 @@ function verificarStatusAssinante() {
     if (isVIP && totalElem && !document.querySelector('.aviso-vip')) {
         const aviso = document.createElement("p");
         aviso.className = "aviso-vip";
-        aviso.style.color = "blue";
+        aviso.style.color = "gold";
         aviso.innerHTML = "🚀 Entrega Prioritária Ativada!";
         totalElem.after(aviso);
     }

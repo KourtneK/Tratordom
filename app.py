@@ -189,6 +189,19 @@ def remover_item_carrinho():
     
     return jsonify({"status": "erro", "mensagem": "Item não encontrado"}), 404
 
+@app.route('/limpar-carrinho-banco', methods=['POST'])
+def limpar_carrinho_banco():
+    dados = request.json
+    usuario_id = dados.get('usuario_id')
+    
+    if usuario_id:
+        # Remove todos os registros que pertencem a esse usuário
+        Carrinho.query.filter_by(usuario_id=usuario_id).delete()
+        db.session.commit()
+        return jsonify({"status": "sucesso", "mensagem": "Banco de dados limpo"})
+    
+    return jsonify({"status": "erro", "mensagem": "Usuário não identificado"}), 400
+
 # ... (mantenha todas as outras rotas: login_google, add_carrinho, puxar_dados, etc.)
 
 

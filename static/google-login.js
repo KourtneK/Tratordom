@@ -116,7 +116,7 @@ function atualizarUsuarioHeader() {
         // Usa as tuas classes: user-foto, user-nome e btn-logout
         container.innerHTML = `
             <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
-                <img src="${usuario.foto}" class="user-foto ${isVIP ? 'user-foto-vip' : ''}" style="width:38px; border-radius:50%;">
+                <img src="${usuario.foto}" class="user-foto ${isVIP ? 'user-foto-vip' : ''}" style="width:40px; border-radius:50%;">
                 <span class="user-nome" style="color: white;">
                     ${usuario.nome.split(' ')[0]} ${isVIP ? '<span style="color: #ffd700;">★</span>' : ''}
                 </span>
@@ -127,6 +127,8 @@ function atualizarUsuarioHeader() {
         container.innerHTML = `<a href="/login" class="btn-login-header">Login</a>`;
     }
 }
+
+
 
 function logoutGoogleUser() {
     localStorage.removeItem('usuarioGoogle');
