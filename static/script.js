@@ -110,6 +110,62 @@ function limparCarrinho() {
     }
 }
 
+// FUNÇÃO DE FINALIZAR COMPRA
+
+function finalizarCompra() {
+    // 1. Verifica se há itens
+    if (carrinho.length === 0) {
+        if (typeof mostrarNotificacao === "function") {
+            mostrarNotificacao("Seu carrinho está vazio!", "#f44336");
+        } else {
+            alert("Seu carrinho está vazio!");
+        }
+        return;
+    }
+
+    // 2. Verifica se o usuário está logado
+    const usuario = JSON.parse(localStorage.getItem('usuarioGoogle'));
+    if (!usuario) {
+        if (typeof mostrarNotificacao === "function") {
+            mostrarNotificacao("Faça login para finalizar a compra!", "#f44336");
+        } else {
+            alert("Faça login para finalizar a compra!");
+        }
+        setTimeout(() => window.location.href = "/login", 2000);
+        return;
+    }
+
+    // --- PROCESSO DE FINALIZAÇÃO ---
+
+    // A. Copia a chave PIX e MOSTRA O ALERT
+    const chavePix = "SUA-CHAVE-PIX-AQUI"; 
+    navigator.clipboard.writeText(chavePix).then(() => {
+        // Mostra o alert que você pediu
+        alert("Chave PIX copiada com sucesso! Pague para concluir seu pedido.");
+        
+        // B. Salva o Log no Banco (após o alert ser fechado)
+        const totalCompra = carrinho.reduce((sum, item) => sum + item.preco, 0);
+        const nomesItens = carrinho.map(i => i.nome).join(", ");
+
+        fetch('http://localhost:5000/salvar-pedido', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                usuario_id: usuario.id,
+                itens: nomesItens,
+                total: totalCompra
+            })
+        }).catch(err => console.error("Erro ao salvar log:", err));
+
+        // C. Limpa o carrinho (sua função do script.js)
+        limparCarrinho();
+
+        // D. Redireciona para o WhatsApp
+        window.location.href = "https://wa.me/5511999999999"; 
+    });
+}
+        
+
 // --- 2. FUNÇÕES DE ASSINATURA ---
 
 function assinarPlano() {
@@ -120,8 +176,8 @@ function assinarPlano() {
         return;
     }
 
-    const chavePix = "SEU-EMAIL-OU-CHAVE-AQUI"; 
-    const foneWhatsApp = "5511999999999";
+    const chavePix = "SUA-CHAVE-PIX-AQUI"; // Substitua pela sua chave PIX real
+    const foneWhatsApp = "5511999999999"; // Substitua pelo número do WhatsApp
     const msg = `Olá! Sou ${usuario.nome} (${usuario.email}). Acabei de pagar o PIX de R$ 12,00. Pode me enviar o código VIP?`;
 
     navigator.clipboard.writeText(chavePix).then(() => {

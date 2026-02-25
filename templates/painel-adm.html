@@ -27,6 +27,62 @@
     </div>
 
     <script>
+        // 1. BLOQUEIO DE ACESSO (Roda antes de qualquer coisa)
+    (function() {
+        const senhaCorreta = "SENHA123"; // Altere para a senha desejada
+        const tentativa = prompt("ACESSO RESTRITO\nDigite a senha:");
+
+        if (tentativa !== senhaCorreta) {
+            window.location.href = "/index"; 
+        } else {
+            // EM VEZ DE ALERT OU APENAS LOG:
+            // Chamamos a função de notificação assim que a página carrega!
+            // O setTimeout faz a página carreguar antes de mostrar o balão
+            setTimeout(() => {
+                mostrarNotificacao("Acesso Administrativo Autorizado!");
+            }, 500);
+        }
+    })();
+
+    function mostrarNotificacao(mensagem, cor = "#2196f3") {
+        const toast = document.createElement("div");
+        toast.innerText = mensagem;
+
+        Object.assign(toast.style, {
+            position: "fixed",
+            bottom: "30px",
+            right: "30px",
+            backgroundColor: cor,
+            color: "white",
+            padding: "16px 28px",
+            borderRadius: "10px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
+            zIndex: "10000",
+            fontFamily: "sans-serif",
+            fontWeight: "bold",
+            transition: "all 0.5s ease",
+            opacity: "0",
+            transform: "translateY(20px)"
+        });
+
+        document.body.appendChild(toast);
+
+        // Aparece suavemente
+        setTimeout(() => {
+            toast.style.opacity = "1";
+            toast.style.transform = "translateY(0)";
+        }, 100);
+
+        // Some sozinho após 3 segundos
+        setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateY(20px)";
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+
+    // --- SUA LOGÍSTICA DE GERAR CÓDIGO (Mantenha abaixo) ---
+
         function gerarCodigo() {
             // 1. Gera 7 números aleatórios
             let n = "";

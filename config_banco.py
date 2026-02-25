@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timedelta
 
 
 db = SQLAlchemy()
@@ -26,3 +27,15 @@ class Carrinho(db.Model):
     produto_nome = db.Column(db.String(100), nullable=False)
     preco = db.Column(db.Float, nullable=False)
     quantidade = db.Column(db.Integer, default=1)
+
+# Tabela 4: Pedidos realizados
+class Pedido(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    itens = db.Column(db.Text, nullable=False) # Guardaremos como texto (ex: "Trator, Sementes")
+    total = db.Column(db.Float, nullable=False)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Função para verificar se expirou
+    def esta_expirado(self):
+        return datetime.utcnow() > self.data_criacao + timedelta(days=30)

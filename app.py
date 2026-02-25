@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import os
-from config_banco import db, Usuario, Assinante, Carrinho
+from config_banco import db, Usuario, Assinante, Carrinho, Pedido
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 CORS(app)
@@ -201,6 +202,24 @@ def limpar_carrinho_banco():
         return jsonify({"status": "sucesso", "mensagem": "Banco de dados limpo"})
     
     return jsonify({"status": "erro", "mensagem": "Usuário não identificado"}), 400
+
+# ROTA PARA SALVAR PEDIDO E LIMPAR PEDIDOS ANTIGOS
+@app.route('/salvar-pedido', methods=['POST'])
+def salvar_pedido():
+    dados = request.json
+    novo_pedido = Pedido(
+        usuario_id=dados['usuario_id'],
+        itens=dados['itens'],
+        total=dados['total']
+    )
+    db.session.add(novo_pedido)
+    
+    # Limpeza automática: Sempre que alguém compra, o banco apaga os velhos
+    limite = datetime.utcnow() - timedelta(days=30)
+    Pedido.query.filter(Pedido.data_criacao < limite).delete()
+    
+    db.session.commit()
+    return jsonify({"status": "sucesso", "mensagem": "Pedido guardado por 30 dias"})
 
 # ... (mantenha todas as outras rotas: login_google, add_carrinho, puxar_dados, etc.)
 
