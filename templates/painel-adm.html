@@ -27,17 +27,14 @@
     </div>
 
     <script>
-        // 1. BLOQUEIO DE ACESSO (Roda antes de qualquer coisa)
+    // BLOQUEIO DE ACESSO
     (function() {
-        const senhaCorreta = "SENHA123"; // Altere para a senha desejada
+        const senhaCorreta = "SENHA123"; 
         const tentativa = prompt("ACESSO RESTRITO\nDigite a senha:");
 
         if (tentativa !== senhaCorreta) {
             window.location.href = "/index"; 
         } else {
-            // EM VEZ DE ALERT OU APENAS LOG:
-            // Chamamos a função de notificação assim que a página carrega!
-            // O setTimeout faz a página carreguar antes de mostrar o balão
             setTimeout(() => {
                 mostrarNotificacao("Acesso Administrativo Autorizado!");
             }, 500);
@@ -49,65 +46,67 @@
         toast.innerText = mensagem;
 
         Object.assign(toast.style, {
-            position: "fixed",
-            bottom: "30px",
-            right: "30px",
-            backgroundColor: cor,
-            color: "white",
-            padding: "16px 28px",
-            borderRadius: "10px",
-            boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
-            zIndex: "10000",
-            fontFamily: "sans-serif",
-            fontWeight: "bold",
-            transition: "all 0.5s ease",
-            opacity: "0",
-            transform: "translateY(20px)"
+            position: "fixed", bottom: "30px", right: "30px", backgroundColor: cor,
+            color: "white", padding: "16px 28px", borderRadius: "10px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.4)", zIndex: "10000",
+            fontFamily: "sans-serif", fontWeight: "bold", transition: "all 0.5s ease",
+            opacity: "0", transform: "translateY(20px)"
         });
 
         document.body.appendChild(toast);
-
-        // Aparece suavemente
+        setTimeout(() => { toast.style.opacity = "1"; toast.style.transform = "translateY(0)"; }, 100);
         setTimeout(() => {
-            toast.style.opacity = "1";
-            toast.style.transform = "translateY(0)";
-        }, 100);
-
-        // Some sozinho após 3 segundos
-        setTimeout(() => {
-            toast.style.opacity = "0";
-            toast.style.transform = "translateY(20px)";
+            toast.style.opacity = "0"; toast.style.transform = "translateY(20px)";
             setTimeout(() => toast.remove(), 500);
         }, 3000);
     }
 
-    // --- SUA LOGÍSTICA DE GERAR CÓDIGO (Mantenha abaixo) ---
+    function gerarCodigo() {
+        let n = "";
+        for (let i = 0; i < 7; i++) { n += Math.floor(Math.random() * 10); }
 
-        function gerarCodigo() {
-            // 1. Gera 7 números aleatórios
-            let n = "";
-            for (let i = 0; i < 7; i++) {
-                n += Math.floor(Math.random() * 10);
-            }
+        let soma = 0;
+        let mult = 2;
+        for (let i = 6; i >= 0; i--) { soma += parseInt(n[i]) * mult; mult++; }
+        
+        let resto = soma % 11;
+        let dv = (resto < 2) ? 0 : 11 - resto;
+        if (dv === 10) dv = 1;
 
-            // 2. Calcula o 8º dígito (DV) com a lógica de pesos (2 a 8)
-            let soma = 0;
-            let mult = 2;
-            for (let i = 6; i >= 0; i--) {
-                soma += parseInt(n[i]) * mult;
-                mult++;
-            }
-            let resto = soma % 11;
-            let dv = (resto < 2) ? 0 : 11 - resto;
-            if (dv === 10) dv = 1;
+        const codigoFinal = `TD-${n}${dv}-VIP`;
 
-            // 3. Exibe o código final
-            const codigoFinal = `TD-${n}${dv}-VIP`;
-            document.getElementById('resultado').innerText = codigoFinal;
-            
-            // Copia automaticamente para facilitar sua vida
-            navigator.clipboard.writeText(codigoFinal);
-        }
+        // Apenas exibe e copia
+        document.getElementById('resultado').innerText = codigoFinal;
+        navigator.clipboard.writeText(codigoFinal);;
+    }
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- let n = "";
+    for (let i = 0; i < 7; i++) {
+        n += Math.floor(Math.random() * 10);
+    }
+
+    // 2. Calcula o DV (Lógica pesos 2 a 8)
+    let soma = 0;
+    let mult = 2;
+    for (let i = 6; i >= 0; i--) {
+        soma += parseInt(n[i]) * mult;
+        mult++;
+    }
+    let resto = soma % 11;
+    let dv = (resto < 2) ? 0 : 11 - resto;
+    if (dv === 10) dv = 1;
+
+    const codigoFinal = `TD-${n}${dv}-VIP`; -->

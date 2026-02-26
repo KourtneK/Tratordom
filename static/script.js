@@ -188,42 +188,58 @@ function assinarPlano() {
 
 // --- 3. VALIDAÇÃO E STATUS ---
 
-function verificarCodigo() {
+async function verificarCodigo() {
     const input = document.getElementById('codigo-vip');
     if (!input) return;
 
     const codigo = input.value.trim().toUpperCase();
-    const padrao = /^TD-(\d{8})-VIP$/;
-    const match = codigo.match(padrao);
 
-    if (match) {
-        const n = match[1];
-        let soma = 0;
-        let multiplicador = 2;
-        for (let i = 6; i >= 0; i--) {
-            soma += parseInt(n[i]) * multiplicador;
-            multiplicador++;
-        }
-        let resto = soma % 11;
-        let dvCalculado = (resto < 2) ? 0 : 11 - resto;
-        if (dvCalculado === 10) dvCalculado = 1;
+    // 1. Validação de Formato
+    const padrao = /^TD-\d{8}-VIP$/;
+    if (!padrao.test(codigo)) {
+        alert("Formato inválido! O código deve ser TD-XXXXXXXX-VIP");
+        return;
+    }
 
-        if (parseInt(n[7]) === dvCalculado) {
-            const usuario = JSON.parse(localStorage.getItem('usuarioGoogle'));
+    // 2. Pegar o usuário logado
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado')) || JSON.parse(localStorage.getItem('usuarioGoogle'));
+
+    if (!usuario || !usuario.id) {
+        alert("Erro: Você precisa estar logado para ativar um código.");
+        return;
+    }
+
+    try {
+        // 3. AGORA SIM, O ENDEREÇO CORRETO DO SEU app.py
+        const response = await fetch('/ativar-vip-banco', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                codigo: codigo,
+                usuario_id: usuario.id 
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
             localStorage.setItem('assinanteVIP', 'true');
-            
-            if (usuario && usuario.id) {
-                fetch('http://localhost:5000/ativar-vip-banco', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario_id: usuario.id })
-                });
+            usuario.assinante = true;
+            if(localStorage.getItem('usuarioGoogle')) {
+                localStorage.setItem('usuarioGoogle', JSON.stringify(usuario));
+            } else {
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
             }
-            alert("AUTENTICAÇÃO VIP CONCLUÍDA!");
+
+            alert("✅ VIP ATIVADO COM SUCESSO!");
             window.location.href = "index";
         } else {
-            alert("Código inválido!");
+            alert("❌ " + data.mensagem);
         }
+
+    } catch (error) {
+        console.error("Erro na comunicação:", error);
+        alert("Erro: Não foi possível conectar ao servidor.");
     }
 }
 
@@ -260,17 +276,13 @@ function cancelarAssinatura() {
 // --- 4. INICIALIZAÇÃO (Onde o perfil é carregado) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Atualiza elementos visuais básicos
-    atualizarContador();
-    if (document.getElementById('lista-carrinho')) renderizarCarrinho();
-    verificarStatusAssinante();
-
-    // 2. Lógica de Perfil e Sincronização
+    // 1. Lógica de Perfil e Sincronização
     const usuarioLocal = JSON.parse(localStorage.getItem('usuarioGoogle'));
+    
     if (usuarioLocal && usuarioLocal.email) {
-        // Chama a função global que você deve ter em outro script para o Header
         if (typeof atualizarUsuarioHeader === "function") atualizarUsuarioHeader();
 
+        // Pede TUDO ao Servidor (VIP, Carrinho, Pedidos, Códigos)
         fetch('http://localhost:5000/puxar-dados-usuario', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -278,16 +290,36 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(data => {
+            // A. Sincroniza o VIP no navegador
             localStorage.setItem('assinanteVIP', data.is_vip ? 'true' : 'false');
             
-            // Atualiza status na página de cancelamento se ela existir
+            // B. Sincroniza o Carrinho (Força o navegador a usar o do Banco de Dados)
+            if (data.carrinho) {
+                carrinho = data.carrinho; // Atualiza a variável global do script
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            }
+            
+            // Atualiza os elementos visuais
+            atualizarContador();
+            if (document.getElementById('lista-carrinho')) renderizarCarrinho();
+            verificarStatusAssinante();
+            
+            // C. Atualiza status na página de cancelamento se ela existir
             const statusTexto = document.getElementById('status-atual');
             const btnCancelar = document.getElementById('btn-confirmar-cancelar');
             if (statusTexto) {
                 statusTexto.innerHTML = data.is_vip ? "Status: VIP Ativo ★" : "Status: Plano Gratuito";
                 if (btnCancelar) btnCancelar.style.display = data.is_vip ? "block" : "none";
             }
+
+            // D. Os teus Pedidos e Códigos estão agora disponíveis aqui!
+            // (Podes usar data.pedidos e data.codigos_usados para mostrar numa página de "Meu Perfil" no futuro)
+            console.log("Sincronização Completa! Pedidos:", data.pedidos);
         })
         .catch(err => console.error("Erro na sincronização:", err));
+    } else {
+        // Se não estiver logado, garante que a interface carrega vazia
+        atualizarContador();
+        if (document.getElementById('lista-carrinho')) renderizarCarrinho();
     }
 });

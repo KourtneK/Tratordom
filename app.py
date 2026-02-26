@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-import os
-from config_banco import db, Usuario, Assinante, Carrinho, Pedido
-from datetime import datetime, timedelta
+from flask import Flask, render_template, request, jsonify # Importa jsonify para respostas JSON
+from flask_cors import CORS # Para permitir que o frontend (que pode estar em outro domínio) se comunique com este backend
+import os # Para lidar com caminhos de arquivos
+from config_banco import db, Usuario, Assinante, Carrinho, Pedidos, CodigoAtivacao # Importa as classes do banco de dados
+from datetime import datetime, timedelta # Para lidar com datas e tempos, especialmente para expiração de pedidos
 
 app = Flask(__name__)
 CORS(app)
@@ -106,27 +106,58 @@ def add_carrinho():
 def ativar(): 
     return render_template('ativar.html')
 
+def validar_codigo_matematico(codigo_completo):
+    try:
+        corpo = codigo_completo.split('-')[1]
+        n = corpo[:7]
+        dv_informado = int(corpo[7])
+        soma = 0
+        mult = 2
+        for i in range(6, -1, -1):
+            soma += int(n[i]) * mult
+            mult += 1
+        resto = soma % 11
+        dv_calculado = 0 if resto < 2 else 11 - resto
+        if dv_calculado == 10: dv_calculado = 1
+        return dv_informado == dv_calculado
+    except:
+        return False
+
+# --- ROTA QUE RECEBE E SALVA NA "LISTA NEGRA" ---
 @app.route('/ativar-vip-banco', methods=['POST'])
 def ativar_vip_banco():
     dados = request.json
     usuario_id = dados.get('usuario_id')
-    
-    # Verifica se já é assinante para não duplicar
-    existe = Assinante.query.filter_by(usuario_id=usuario_id).first()
-    if not existe:
-        novo_assinante = Assinante(usuario_id=usuario_id)
-        db.session.add(novo_assinante)
+    codigo_recebido = dados.get('codigo')
+
+    # 1. Filtro Matemático
+    if not validar_codigo_matematico(codigo_recebido):
+        return jsonify({"status": "erro", "mensagem": "Código inválido! Formato não reconhecido."}), 400
+
+    # 2. Filtro de Reuso (Está no banco? Então já foi usado)
+    ja_usado = CodigoAtivacao.query.filter_by(codigo=codigo_recebido).first()
+    if ja_usado:
+        return jsonify({"status": "erro", "mensagem": "Este código já foi utilizado!"}), 400
+
+    # 3. Código passou! Ativa VIP e salva no banco.
+    usuario = Usuario.query.get(usuario_id)
+    if usuario:
+        assinante = Assinante.query.filter_by(usuario_id=usuario.id).first()
+        if not assinante:
+            assinante = Assinante(usuario_id=usuario.id)
+            db.session.add(assinante)
+        
+        # Guarda o código vinculado ao usuário para bloquear usos futuros
+        novo_uso = CodigoAtivacao(codigo=codigo_recebido, usuario_id=usuario.id)
+        db.session.add(novo_uso)
+        
         db.session.commit()
-        return jsonify({"status": "sucesso", "mensagem": "Agora você é VIP no banco!"})
-    
-    return jsonify({"status": "sucesso", "mensagem": "Usuário já era VIP"})
+        return jsonify({"status": "sucesso", "mensagem": "VIP Ativado!"})
 
-# @app.route('/remover-carrinho', methods=['POST'])
-# def remover_carrinho():
-#     dados = request.json
-#     usuario_id = dados.get('usuario_id')
-#     produto_nome = dados.get('produto_nome')
+    return jsonify({"status": "erro", "mensagem": "Usuário inválido"}), 400
 
+
+# ROTA PARA VERIFICAR SE O USUÁRIO É VIP (USADA PELO FRONTEND)
 @app.route('/verificar-vip/<int:usuario_id>')
 def verificar_vip(usuario_id):
     is_vip = Assinante.query.filter_by(usuario_id=usuario_id).first() is not None
@@ -136,30 +167,40 @@ def verificar_vip(usuario_id):
 def puxar_dados():
     dados = request.json
     email = dados.get('email')
-    nome = dados.get('nome') # Pegamos o nome também para o caso de precisar criar
+    nome = dados.get('nome')
 
     if not email:
         return jsonify({"erro": "Email não fornecido"}), 400
 
-    # Tenta achar o usuário no banco
+    # 1. Procura ou Cria o Utilizador
     usuario = Usuario.query.filter_by(email=email).first()
-
-    # SE NÃO EXISTE NO BANCO, VAMOS CRIAR AGORA!
     if not usuario:
         usuario = Usuario(nome=nome if nome else "Usuário", email=email)
         db.session.add(usuario)
         db.session.commit()
         print(f"NOVO USUÁRIO CRIADO NO DB: {email}")
 
-    # Puxa os dados (VIP e Carrinho)
+    # 2. Puxa o status VIP
     is_vip = Assinante.query.filter_by(usuario_id=usuario.id).first() is not None
+    
+    # 3. Puxa o Carrinho
     itens_db = Carrinho.query.filter_by(usuario_id=usuario.id).all()
     carrinho_lista = [{"nome": i.produto_nome, "preco": i.preco} for i in itens_db]
+
+    # 4. Puxa os Pedidos (A limpeza de 30 dias já acontece na rota de salvar)
+    pedidos_db = Pedidos.query.filter_by(usuario_id=usuario.id).all()
+    pedidos_lista = [{"itens": p.itens, "total": p.total, "data": p.data_criacao.strftime("%d/%m/%Y")} for p in pedidos_db]
+
+    # 5. Puxa os Códigos Ativados por este utilizador
+    codigos_db = CodigoAtivacao.query.filter_by(usuario_id=usuario.id).all()
+    codigos_lista = [c.codigo for c in codigos_db]
     
     return jsonify({
         "usuario_id": usuario.id,
         "is_vip": is_vip,
-        "carrinho": carrinho_lista
+        "carrinho": carrinho_lista,
+        "pedidos": pedidos_lista,
+        "codigos_usados": codigos_lista
     })
 
 @app.route('/sincronizar-vip-email', methods=['POST'])
@@ -204,25 +245,26 @@ def limpar_carrinho_banco():
     return jsonify({"status": "erro", "mensagem": "Usuário não identificado"}), 400
 
 # ROTA PARA SALVAR PEDIDO E LIMPAR PEDIDOS ANTIGOS
-@app.route('/salvar-pedido', methods=['POST'])
-def salvar_pedido():
+@app.route('/salvar-pedidos', methods=['POST'])
+def salvar_pedidos():
     dados = request.json
-    novo_pedido = Pedido(
+    novo_pedidos = Pedidos(
         usuario_id=dados['usuario_id'],
         itens=dados['itens'],
         total=dados['total']
     )
-    db.session.add(novo_pedido)
+    db.session.add(novo_pedidos)
     
     # Limpeza automática: Sempre que alguém compra, o banco apaga os velhos
     limite = datetime.utcnow() - timedelta(days=30)
-    Pedido.query.filter(Pedido.data_criacao < limite).delete()
+    Pedidos.query.filter(Pedidos.data_criacao < limite).delete()
     
     db.session.commit()
-    return jsonify({"status": "sucesso", "mensagem": "Pedido guardado por 30 dias"})
+    return jsonify({"status": "sucesso", "mensagem": "Pedidos guardados por 30 dias"})
 
 # ... (mantenha todas as outras rotas: login_google, add_carrinho, puxar_dados, etc.)
 
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+    print("SERVIDOR RODANDO NA PORTA 5000")

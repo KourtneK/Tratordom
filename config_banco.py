@@ -29,7 +29,7 @@ class Carrinho(db.Model):
     quantidade = db.Column(db.Integer, default=1)
 
 # Tabela 4: Pedidos realizados
-class Pedido(db.Model):
+class Pedidos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     itens = db.Column(db.Text, nullable=False) # Guardaremos como texto (ex: "Trator, Sementes")
@@ -39,3 +39,11 @@ class Pedido(db.Model):
     # Função para verificar se expirou
     def esta_expirado(self):
         return datetime.utcnow() > self.data_criacao + timedelta(days=30)
+
+# Tabela 5: Códigos de ativação para promoções ou acesso VIP
+# No seu arquivo config_banco.py
+# Coloque isso no final do config_banco.py
+class CodigoAtivacao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(30), unique=True, nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
