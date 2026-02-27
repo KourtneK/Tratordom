@@ -9,6 +9,7 @@ class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    foto = db.Column(db.String(255), nullable=True)
     # Relações para facilitar a busca no Python
     assinatura_ref = db.relationship('Assinante', backref='usuario_base', uselist=False)
     carrinho_ref = db.relationship('Carrinho', backref='usuario_base')

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Explorer - Tratordom</title>
+    <link rel="icon" type="image/png" href="/static/imagens/Touro.png">
+    <style>
+        :root { 
+            --primary: #2196f3; 
+            --bg: #0f0f0f; 
+            --card: #181818; 
+            --border: #282828; 
+            --text: #e0e0e0; 
+            --accent: #4caf50;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+        
+        .dashboard-header { max-width: 1200px; margin: 0 auto 30px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { color: var(--primary); margin: 0; display: flex; align-items: center; gap: 10px; }
+
+        .grid-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr; gap: 30px; }
+        
+        /* Estilo das Sessões (Cards) */
+        .section-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .section-header { background: #222; padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .section-header h2 { font-size: 1.1rem; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .table-wrapper { max-height: 400px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 20px; background: #1d1d1d; font-size: 0.8rem; color: #888; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
+        td { padding: 12px 20px; border-bottom: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
+        tr:hover { background: #1d1d1d; }
+
+        /* Componentes de Usuário */
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .user-img { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--primary); background: #333; }
+        
+        /* Badges e Status */
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+        .badge-vip { background: #ffd700; color: #000; }
+        .badge-code { font-family: monospace; background: #333; color: var(--accent); border: 1px solid var(--accent); }
+        
+        /* Estilo do Carrinho Agrupado */
+        .cart-item { font-size: 0.85rem; color: #bbb; margin-bottom: 4px; }
+        .cart-qty { color: var(--primary); font-weight: bold; margin-left: 5px; }
+
+        .btn-voltar { color: var(--text); text-decoration: none; border: 1px solid var(--border); padding: 8px 15px; border-radius: 5px; font-size: 0.8rem; transition: 0.3s; }
+        .btn-voltar:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-header">
+    <h1><span>📊</span> Tratordom System Monitor</h1>
+    <div style="display: flex; gap: 15px; align-items: center;">
+        <span style="color: #666; font-size: 0.9rem;">Servidor Ativo na Porta 5000</span>
+        <a href="/index" class="btn-voltar">Sair do Monitor</a>
+    </div>
+</div>
+
+<div class="grid-container">
+    
+    <div class="section-card">
+        <div class="section-header">
+            <h2>👥 Usuários e Inventário</h2>
+            <span style="color: #666;">Total: {{ usuarios|length }}</span>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Usuário</th><th>E-mail</th><th>Plano</th><th>Carrinho Atual</th></tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr>
+                        <td style="color: #555;">#{{ u.id }}</td>
+                        <td>
+                            <div class="user-info">
+                                <img src="{{ u.foto if u.foto and u.foto != 'None' else 'https://www.gstatic.com/images/branding/product/2x/avatar_anonymous_48dp.png' }}" class="user-img">
+                                <b>{{ u.nome }}</b>
+                            </div>
+                        </td>
+                        <td>{{ u.email }}</td>
+                        <td>
+                            {% if u.assinatura_ref %} 
+                                <span class="badge badge-vip">VIP ★</span> 
+                            {% else %} 
+                                <span style="color: #666;">Gratuito</span> 
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if u.carrinho_ref %}
+                                {% for item in u.carrinho_ref %}
+                                    <div class="cart-item">• {{ item.produto_nome }} <span class="cart-qty">x{{ item.quantidade }}</span></div>
+                                {% endfor %}
+                            {% else %}
+                                <span style="color: #444; font-style: italic;">Vazio</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <h2>📦 Histórico de Vendas (Log)</h2>
+            <span style="color: #666;">Últimos Registros</span>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Data</th><th>Usuário ID</th><th>Descrição dos Itens</th><th>Total Pago</th></tr>
+                </thead>
+                <tbody>
+                    {% for p in pedidos %}
+                    <tr>
+                        <td>{{ p.data_criacao.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>#{{ p.usuario_id }}</td>
+                        <td style="color: #bbb; max-width: 300px;">{{ p.itens }}</td>
+                        <td style="color: var(--accent); font-weight: bold;">R$ {{ "%.2f"|format(p.total) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-card" style="margin-bottom: 50px;">
+        <div class="section-header">
+            <h2>🔑 Auditoria de Chaves VIP</h2>
+            <span style="color: #666;">Segurança: Filtro de Reuso</span>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Código Ativado</th><th>Dono do Acesso (ID)</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    {% for c in codigos %}
+                    <tr>
+                        <td><span class="badge badge-code">{{ c.codigo }}</span></td>
+                        <td>Usuário #{{ c.usuario_id }}</td>
+                        <td style="color: #888;">Bloqueado para reuso</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
