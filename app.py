@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify # Importa jsonify para respostas JSON
+from flask import Flask, render_template, request, jsonify, session, redirect # Importa jsonify para respostas JSON
 from flask_cors import CORS # Para permitir que o frontend se comunique com este backend
 import os # Para lidar com caminhos de arquivos
 from config_banco import db, Usuario, Assinante, Carrinho, Pedidos, CodigoAtivacao # Importa as classes do banco de dados
@@ -6,6 +6,7 @@ from datetime import datetime, timedelta # Para lidar com datas e tempos
 
 app = Flask(__name__)
 CORS(app)
+app.secret_key = 'tratordom_chave_mestra' # <-- ADICIONE ESTA LINHA
 
 # Configurações
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -37,8 +38,30 @@ def contatos(): return render_template('contatos.html')
 @app.route('/assinatura')
 def assinatura(): return render_template('assinatura.html')
 
+# --- ROTA DO PAINEL-ADM ---
 @app.route('/painel-adm')
-def painel_adm(): return render_template('painel-adm.html')
+def painel_adm():
+    # Pega o e-mail de quem está logado no site com o Google
+    email_logado = session.get('usuario_email')
+    
+    # Cria uma lista com todos os e-mails que têm permissão de Admin
+    admins_autorizados = [
+        'lucasdanielrocha2009@gmail.com', # Lucas Rocha (Diretor)
+    ]
+    
+    # Verifica se o e-mail logado ESTÁ DENTRO (in) da lista de autorizados
+    if email_logado in admins_autorizados:
+        return render_template('painel-adm.html')
+    
+    # Se não estiver na lista (ou não tiver feito login), mostra a tela de bloqueio
+    return '''
+        <body style="background:#121212; color:white; text-align:center; padding:50px; font-family:sans-serif;">
+            <h2 style="color:#ff5252;">Acesso Negado</h2>
+            <p>Esta área é de acesso exclusivo da diretoria da Tratordom.</p>
+            <a href="/index" style="color:#2196f3; text-decoration:none; font-weight:bold;">Voltar para a loja</a>
+        </body>
+    ''', 403
+
 
 @app.route('/cancelar')
 def cancelar(): return render_template('cancelar.html')
@@ -81,12 +104,15 @@ def login_google():
         db.session.add(usuario)
         print(f"+++ NOVO USUÁRIO SALVO: {nome}")
     else:
-        # Se já existe, apenas atualiza a foto e o nome (caso tenham mudado no Google)
+        # Se já existe, apenas atualiza a foto e o nome
         usuario.nome = nome
         usuario.foto = foto
         print(f"!!! DADOS ATUALIZADOS PARA: {nome}")
 
     db.session.commit()
+
+    # Guarda o e-mail na sessão segura do servidor Flask
+    session['usuario_email'] = usuario.email
 
     # Verifica o status VIP para devolver ao navegador
     is_vip = Assinante.query.filter_by(usuario_id=usuario.id).first() is not None
@@ -264,6 +290,11 @@ def ver_banco():
                            usuarios=usuarios, 
                            pedidos=pedidos, 
                            codigos=codigos)
+
+# Rota para silenciar o erro 404 do Chrome DevTools
+@app.route('/.well-known/appspecific/com.chrome.devtools.json')
+def silenciar_chrome():
+    return {}, 200 # Retorna um JSON vazio e status de Sucesso
 
 
 # --- IMPORTAÇÕES DO BACKUP ---

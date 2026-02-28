@@ -147,7 +147,7 @@ function finalizarCompra() {
         const totalCompra = carrinho.reduce((sum, item) => sum + item.preco, 0);
         const nomesItens = carrinho.map(i => i.nome).join(", ");
 
-        fetch('http://localhost:5000/salvar-pedido', {
+        fetch('http://localhost:5000/salvar-pedidos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

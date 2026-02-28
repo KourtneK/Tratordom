@@ -8,42 +8,10 @@
 function handleCredentialResponse(response) {
     const data = parseJwt(response.credential);
 
-    // ESTA É A PARTE QUE SALVA NO DB:
-    fetch('http://localhost:5000/login-google', {
+    // A MÁGICA ESTÁ AQUI: Usar apenas a rota relativa '/login-google'
+    fetch('/login-google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            nome: data.name,
-            email: data.email,
-            foto: data.picture
-        })
-    })
-    .then(res => res.json())
-    .then(usuarioDB => {
-        // Só depois que o Python confirma, salvamos no navegador
-        localStorage.setItem('usuarioGoogle', JSON.stringify({
-            id: usuarioDB.id, // ID REAL DO BANCO
-            nome: data.name,
-            email: data.email,
-            foto: data.picture
-        }));
-
-        localStorage.setItem('assinanteVIP', usuarioDB.status_vip ? 'true' : 'false');
-        
-        console.log("Usuário sincronizado com o DB!");
-        atualizarUsuarioHeader();
-        window.location.href = "/index";
-    })
-    .catch(err => console.error("ERRO CRÍTICO: O JavaScript não conseguiu falar com o Python!", err));
-}
-
-    // 2. Envia os dados para o servidor Flask salvar no banco de dados SQLite
-    // Certifique-se de que o endereço bate com o que você autorizou no Google Cloud
-    fetch('http://localhost:5000/login-google', {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json' 
-        },
         body: JSON.stringify({
             nome: data.name,
             email: data.email,
@@ -55,25 +23,25 @@ function handleCredentialResponse(response) {
         return res.json();
     })
     .then(usuarioDB => {
-        // 3. Salva os dados retornados pelo Python (incluindo o ID do banco) no navegador
+        // Só depois que o Python confirma, salvamos no navegador
         localStorage.setItem('usuarioGoogle', JSON.stringify({
-            id: usuarioDB.id,
+            id: usuarioDB.id, 
             nome: data.name,
             email: data.email,
-            foto: data.picture,
-            is_assinante: usuarioDB.is_assinante
+            foto: data.picture
         }));
 
-        console.log("Usuário registrado/logado com sucesso!");
-
-        // 4. Redireciona para a Home usando a ROTA do Flask (não o arquivo físico)
-        window.location.href = "/index"; 
+        localStorage.setItem('assinanteVIP', usuarioDB.status_vip ? 'true' : 'false');
+        
+        console.log("Usuário sincronizado com o DB!");
+        atualizarUsuarioHeader();
+        window.location.href = "/index";
     })
     .catch(err => {
-        console.error("Erro ao processar login no banco:", err);
-        alert("Erro ao conectar com o servidor de banco de dados.");
+        console.error("ERRO CRÍTICO: O JavaScript não conseguiu falar com o Python!", err);
+        alert("Erro ao conectar com o servidor.");
     });
-
+}
 
 /**
  * Função Auxiliar: Decodifica o Token JWT do Google.
@@ -92,17 +60,6 @@ function parseJwt(token) {
 }
 
 /**
- * Função de Logout: Limpa os dados do navegador e recarrega a página.
- */
-function logoutGoogleUser() {
-    if (confirm("Deseja realmente sair?")) {
-        localStorage.removeItem('usuarioGoogle');
-        localStorage.removeItem('assinanteVIP'); // Limpa status de assinante se houver
-        window.location.href = "/index";
-    }
-}
-
-/**
  * Função para atualizar o Header: Mostra o nome/foto do usuário ou o botão de Login.
  */
 function atualizarUsuarioHeader() {
@@ -113,7 +70,6 @@ function atualizarUsuarioHeader() {
     if (!container) return;
 
     if (usuario && usuario.nome) {
-        // Usa as tuas classes: user-foto, user-nome e btn-logout
         container.innerHTML = `
             <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
                 <img src="${usuario.foto}" class="user-foto ${isVIP ? 'user-foto-vip' : ''}" style="width:40px; border-radius:50%;">
@@ -128,13 +84,16 @@ function atualizarUsuarioHeader() {
     }
 }
 
-
-
+/**
+ * Função de Logout: Limpa os dados do navegador e recarrega a página.
+ */
 function logoutGoogleUser() {
-    localStorage.removeItem('usuarioGoogle');
-    localStorage.removeItem('assinanteVIP');
-    localStorage.removeItem('carrinho');
-    window.location.href = "/index";
+    if (confirm("Deseja realmente sair?")) {
+        localStorage.removeItem('usuarioGoogle');
+        localStorage.removeItem('assinanteVIP');
+        localStorage.removeItem('carrinho');
+        window.location.href = "/index";
+    }
 }
 
 // Executa automaticamente ao carregar qualquer página para verificar sessão
