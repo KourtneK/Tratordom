@@ -1,0 +1,18 @@
+name: Backup Automático Tratordom
+
+on:
+  schedule:
+    # O horário aqui é UTC. 06:00 UTC = 03:00 da manhã no horário de Brasília
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Isso cria o botão manual para testarmos no próprio GitHub
+
+jobs:
+  acionar_backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bater na Rota de Backup do PythonAnywhere
+        # ATENÇÃO: Troque "SEU-USUARIO" pelo seu login do PythonAnywhere!
+        run: |
+          curl -X POST https://tratordom.pythonanywhere.com/api/fazer-backup \
+          -H "Content-Type: application/json" \
+          -H "X-Backup-Key: ${{ secrets.CHAVE_BACKUP }}"
